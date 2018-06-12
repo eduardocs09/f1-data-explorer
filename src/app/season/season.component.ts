@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'season',
+  selector: 'app-season',
   templateUrl: './season.component.html',
   styleUrls: ['./season.component.css']
 })
