@@ -1,22 +1,21 @@
-import { SeasonsService } from './seasons.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { SeasonComponent } from './season/season.component';
-import { SeasonsComponent } from './seasons/seasons.component';
+import { SeasonsModule } from './seasons/seasons.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    SeasonComponent,
-    SeasonsComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    SeasonsModule,
+    HttpClientModule
   ],
   providers: [
-    SeasonsService
   ],
   bootstrap: [AppComponent]
 })

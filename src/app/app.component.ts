@@ -1,4 +1,7 @@
+import { SeasonsModule } from './seasons/seasons.module';
 import { Component } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-root',

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { Season } from './../shared/season.model';
 
 @Component({
   selector: 'app-season',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./season.component.css']
 })
 export class SeasonComponent implements OnInit {
+  @Input('season') season: Season;
 
   constructor() { }
 
