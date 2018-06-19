@@ -27,33 +27,45 @@ export class SeasonsComponent implements OnInit {
       this.seasons.sort(function(firstObject: Season, secondObject: Season) {
         return secondObject.year - firstObject.year;
       });
-      this.loadDriversStandings();
-      this.loadConstructorStandings();
-    });
 
-    // this.lastSeason = this.seasons[0];
-    // this.seasons.shift();
-  }
+      const promises = [
+        this.loadDriversStandings(),
+        this.loadConstructorStandings()
+      ];
 
-  loadDriversStandings(): void {
-    this.seasonsService.getDriverStandings().subscribe(driverStandingsResponse => {
-      driverStandingsResponse['MRData'].StandingsTable.StandingsLists.forEach(element => {
-        const year = +element.season;
-        const elementIndex = this.seasons.findIndex(x => x.year === year);
-        this.seasons[elementIndex].driverWinnerId = element.DriverStandings[0].Driver.driverId;
-        this.seasons[elementIndex].driverWinnerName = element.DriverStandings[0].Driver.givenName
-          + ' ' + element.DriverStandings[0].Driver.familyName;
+      Promise.all(promises).then(data => {
+        this.lastSeason = this.seasons[0];
+        this.seasons.shift();
+        debugger;
       });
     });
   }
 
-  loadConstructorStandings(): void {
-    this.seasonsService.getConstructorStandings().subscribe(constructorStandingsResponse => {
-      constructorStandingsResponse['MRData'].StandingsTable.StandingsLists.forEach(element => {
-        const year = +element.season;
-        const elementIndex = this.seasons.findIndex(x => x.year === year);
-        this.seasons[elementIndex].constructorWinnerId = element.ConstructorStandings[0].Constructor.constructorId;
-        this.seasons[elementIndex].constructorWinnerName = element.ConstructorStandings[0].Constructor.name;
+  loadDriversStandings(): Promise<boolean> {
+    return new Promise(resolve => {
+      this.seasonsService.getDriverStandings().subscribe(driverStandingsResponse => {
+        driverStandingsResponse['MRData'].StandingsTable.StandingsLists.forEach(element => {
+          const year = +element.season;
+          const elementIndex = this.seasons.findIndex(x => x.year === year);
+          this.seasons[elementIndex].driverWinnerId = element.DriverStandings[0].Driver.driverId;
+          this.seasons[elementIndex].driverWinnerName = element.DriverStandings[0].Driver.givenName
+            + ' ' + element.DriverStandings[0].Driver.familyName;
+        });
+        resolve(true);
+      });
+    });
+  }
+
+  loadConstructorStandings(): Promise<boolean> {
+    return new Promise(resolve => {
+      this.seasonsService.getConstructorStandings().subscribe(constructorStandingsResponse => {
+        constructorStandingsResponse['MRData'].StandingsTable.StandingsLists.forEach(element => {
+          const year = +element.season;
+          const elementIndex = this.seasons.findIndex(x => x.year === year);
+          this.seasons[elementIndex].constructorWinnerId = element.ConstructorStandings[0].Constructor.constructorId;
+          this.seasons[elementIndex].constructorWinnerName = element.ConstructorStandings[0].Constructor.name;
+        });
+        resolve(true);
       });
     });
   }
