@@ -36,7 +36,6 @@ export class SeasonsComponent implements OnInit {
       Promise.all(promises).then(data => {
         this.lastSeason = this.seasons[0];
         this.seasons.shift();
-        debugger;
       });
     });
   }
